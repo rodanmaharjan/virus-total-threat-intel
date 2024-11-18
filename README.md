@@ -20,8 +20,8 @@ This Python tool is designed for Threat Intelligence (CTI) Analysts to automate 
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/rodanmaharjan/cti-malicious-check.git
-    cd cti-malicious-check
+    git clone https://github.com/rodanmaharjan/virus-total-threat-intel.git
+    cd virus-total-threat-intel
     ```
 
 2. **Install dependencies:**
