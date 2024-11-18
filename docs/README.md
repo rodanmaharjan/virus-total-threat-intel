@@ -1,8 +1,8 @@
-# VirusTotal Malicious IP, Domain and URL Check
+# VirusTotal Malicious IP and URL Check
 
 ## Overview
 
-This Python tool is designed for Threat Intelligence (CTI) Analysts to automate the detection of malicious IPs and URLs using the [VirusTotal API](https://www.virustotal.com/). It supports checking multiple IPs, Domains and URLs, and outputs the results, allowing teams to monitor potential threats effectively.
+This Python tool is designed for Threat Intelligence (CTI) Analysts to automate the detection of malicious IPs and URLs using the [VirusTotal API](https://www.virustotal.com/). It supports checking multiple IPs and URLs, and outputs the results, allowing teams to monitor potential threats effectively.
 
 ### Features:
 - **Automated Malicious IP and URL Detection**: Queries the VirusTotal API to check for malicious reports.
@@ -43,13 +43,15 @@ This Python tool is designed for Threat Intelligence (CTI) Analysts to automate 
     ```
 
 ### Usage:
-1. Add your IP addresses, domains and URLs to `data/input.txt`.
+1. Add your IP addresses and URLs to `data/input.txt`.
 2. Add your VirusTotal API keys to `data/api_keys.txt`.
 3. Run the script, and the results will be saved to `malicious.txt`.
 
 Example output:
+
 Making request for IP: 192.168.0.1 Using API key: your-api-key Response for IP 192.168.0.1: Malicious Number of malicious reports: 3
 
+Malicious IP addresses and URLs saved to malicious.txt
 
 ### Contributing:
 Contributions are welcome! To contribute:
@@ -61,4 +63,3 @@ Contributions are welcome! To contribute:
 
 ### License:
 MIT License. See [LICENSE](LICENSE) for more details.
-
