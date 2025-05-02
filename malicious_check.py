@@ -3,6 +3,15 @@ import requests
 import time
 import re
 import vt
+import os
+
+# Read previously processed malicious IOCs
+if os.path.exists('malicious.txt'):
+    with open('malicious.txt', 'r') as malicious_indicators:
+        processed_iocs = set(malicious_indicators.read().splitlines())
+else:
+    processed_iocs = set()
+
 
 with open('input.txt', 'r') as ip_file, open('api_keys.txt', 'r') as key_file:
 
@@ -17,7 +26,9 @@ with open('input.txt', 'r') as ip_file, open('api_keys.txt', 'r') as key_file:
 
     for each in iocs:
 
-        new_api_keys = next(api_key_cycle)
+        if each in processed_iocs:
+            print(f"Skipping {each}, already processed.")
+            continue
 
         # Define regexes for IP addresses and URLs
         ip_regex = re.compile(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(:\d+)?')
@@ -25,8 +36,9 @@ with open('input.txt', 'r') as ip_file, open('api_keys.txt', 'r') as key_file:
 
         # If IP regex matches then only query VirusTotal with the IP
         if ip_regex.match(each):
-
-            with open('malicious.txt', 'w') as malicious_file:
+            new_api_keys = next(api_key_cycle)
+            
+            with open('malicious.txt', 'a') as malicious_file:
                 url = f"https://www.virustotal.com/api/v3/ip_addresses/{each}"
                 headers = {"accept": "application/json", "x-apikey": new_api_keys}
                 print(f"\nMaking request for IP: {each} \nUsing API key: {new_api_keys}")
@@ -50,7 +62,7 @@ with open('input.txt', 'r') as ip_file, open('api_keys.txt', 'r') as key_file:
         # If URL regex matches then only query VirusTotal with the URL
         elif url_regex.match(each):
             new_api_keys = next(api_key_cycle)
-            with open('malicious.txt', 'w') as malicious_file:
+            with open('malicious.txt', 'a') as malicious_file:
 
                 try:
                     print(f"\nMaking request for URL: {each}\nUsing API key: {new_api_keys}")
