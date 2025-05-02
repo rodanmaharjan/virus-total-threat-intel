@@ -44,7 +44,7 @@ with open('input.txt', 'r') as ip_file, open('api_keys.txt', 'r') as key_file:
                     # No need to check other API keys if malicious detection is found
 
                 else:
-                    print(f"Request failed for IP {ip_addresses} with status code: {response.status_code}")
+                    print(f"Request failed for IP {each} with status code: {response.status_code}")
                     print(response.text)  # Print the response content for debugging purposes
 
         # If URL regex matches then only query VirusTotal with the URL
