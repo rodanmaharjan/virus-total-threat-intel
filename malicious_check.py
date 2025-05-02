@@ -7,7 +7,7 @@ import vt
 with open('input.txt', 'r') as ip_file, open('api_keys.txt', 'r') as key_file:
 
     # Read IP addresses and API keys from a file 
-    ip_addresses = ip_file.read().splitlines()
+    iocs = ip_file.read().splitlines()
     api_keys = key_file.read().splitlines()
 
     # Cycle through API keys to stay within resource constraints
@@ -15,7 +15,7 @@ with open('input.txt', 'r') as ip_file, open('api_keys.txt', 'r') as key_file:
     new_api_keys = next(api_key_cycle)
     malicious_addresses = []
 
-    for each in ip_addresses:
+    for each in iocs:
 
         new_api_keys = next(api_key_cycle)
 
