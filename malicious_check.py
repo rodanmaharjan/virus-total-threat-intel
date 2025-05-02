@@ -3,24 +3,33 @@ import requests
 import time
 import re
 import vt
-# Read IP addresses from a file
+
 with open('input.txt', 'r') as ip_file, open('api_keys.txt', 'r') as key_file:
+
+    # Read IP addresses and API keys from a file 
     ip_addresses = ip_file.read().splitlines()
     api_keys = key_file.read().splitlines()
+
     api_key_cycle = cycle(api_keys)
     new_api_keys = next(api_key_cycle)
     malicious_addresses = []
+
     for each in ip_addresses:
+
         new_api_keys = next(api_key_cycle)
         ip_regex = re.compile(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(:\d+)?')
         url_regex = re.compile(r'\b(?:https?://)?(?:www\.)?(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}|(?:https?://)?(?:\d{1,3}\.){3}\d{1,3}(?::\d+)?\b')
+
         if ip_regex.match(each):
+
             with open('malicious.txt', 'w') as malicious_file:
+
                 url = f"https://www.virustotal.com/api/v3/ip_addresses/{each}"
                 #print(api_keys + "Before API key using")
                 headers = {"accept": "application/json", "x-apikey": new_api_keys}
                 print(f"\nMaking request for IP: {each} \nUsing API key: {new_api_keys}")
                 response = requests.get(url, headers=headers)
+
                 if response.status_code == 200:
                     malicious_value = response.json()["data"]["attributes"]["last_analysis_stats"]["malicious"]
                     if malicious_value > 0:
@@ -30,12 +39,15 @@ with open('input.txt', 'r') as ip_file, open('api_keys.txt', 'r') as key_file:
                         print(f'Response for IP {each}: Not malicious')
                     time.sleep(20)
                     # No need to check other API keys if malicious detection is found
+
                 else:
                     print(f"Request failed for IP {ip_addresses} with status code: {response.status_code}")
                     print(response.text)  # Print the response content for debugging purposes
+
         elif url_regex.match(each):
             new_api_keys = next(api_key_cycle)
             with open('malicious.txt', 'w') as malicious_file:
+
                 try:
                     print(f"\nMaking request for URL: {each}\nUsing API key: {new_api_keys}")
                     # Initialize the VirusTotal client with the current API key
